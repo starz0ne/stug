@@ -5,7 +5,25 @@ const cdrce = (e, v) => document.documentElement.style.setProperty(e, v);
 const ggcrv = (e) => getComputedStyle(document.documentElement).getPropertyValue(e).trim();
 
 // initialize some variables
-let initialX, initialY, mainbordercolor, headerbordercolor, headercolor;
+let offsetX, offsetY, isDragging = false;
+let mainbordercolor, headerbordercolor, headercolor;
+
+// functions for handling dragging
+function handleMouseDown(event) {
+  isDragging = true;
+  const boundingRect = modmenu.getBoundingClientRect();
+  offsetX = event.clientX - boundingRect.left;
+  offsetY = event.clientY - boundingRect.top;
+}
+function handleMouseMove(event) {
+  if (!isDragging) return;
+  const newX = event.clientX - offsetX;
+  const newY = event.clientY - offsetY;
+  modmenu.style.left = `${newX}px`;
+  modmenu.style.top = `${newY}px`;
+}
+function handleMouseUp() { isDragging = false; }
+
 
 // function for handling inactive/active toggle button
 const handleToggle = (element) => {
@@ -78,22 +96,10 @@ const maximize = idget('maxi');
 // variables for modmenu feature elements
 const anonymitymode = idget('am-m');
 
-// event listeners for dragging
-modmenuheader.addEventListener("dragstart", function(event) {
-  /// store initial position when drag starts
-  initialX = event.clientX - modmenuheader.offsetLeft;
-  initialY = event.clientY - modmenuheader.offsetTop;
-});
-
-modmenuheader.addEventListener("drag", function(event) {
-  /// update position as the drag is happening
-  var newX = event.clientX - initialX;
-  var newY = event.clientY - initialY;
-
-  /// apply new position
-  modmenuheader.style.left = newX + "px";
-  modmenuheader.style.top = newY + "px";
-});
+// event listener for dragging
+modmenuheader.addEventListener('mousedown', handleMouseDown);
+document.addEventListener('mousemove', handleMouseMove);
+document.addEventListener('mouseup', handleMouseUp);
 
 // process interactions with minimize/maximize buttons
 minimize.onclick = () => minimizeModMenu();
