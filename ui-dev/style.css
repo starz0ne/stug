@@ -22,38 +22,38 @@
 	/* theme */
    --font: Orbitron;
 
-	--main-color: #c7acac;
-	--main-border-color: #5a4040;
+	--main-color: #ff8800;
+	--main-border-color: #ff8800;
 	--main-border-style: solid;
-	--main-text-color: #000000;
+	--main-text-color: #ff5e00;
 
-	--header-color: #5a4040;
-	--header-border-color: #a38f8f;
+	--header-color: #ff7300;
+	--header-border-color: #ff7300;
 	--header-border-style: solid;
-	--header-text-color: #000000;
+	--header-text-color: #e02200;
 
-   --minimize-border-color: #000000;
-   --minimize-shade: #5a4040;
-   --minimize-color: #000000;
+   --minimize-border-color: #ff3c00;
+   --minimize-shade: #f1080838;
+   --minimize-color: #ff1e00;
 
-   --minimized-color: #423939;
+   --minimized-color: #ff5e00;
 
-   --maximize-border-color: #000000;
-   --maximize-shade: #5a4040;
-   --maximize-color: #000000;
+   --maximize-border-color: #ff3c00;
+   --maximize-shade: #f1080838;
+   --maximize-color: #ff1e00;
 
-   --stage-text-color: #000000;
+   --stage-text-color: #ff2600;
 
-	--textbox-color: #5a4040;
-	--textbox-text-color: #5a4040;
-   --textbox-border-color: #5a4040;
+	--textbox-color: #ff4800;
+	--textbox-text-color: #e40000;
+   --textbox-border-color: #ff5e00;
    --textbox-border-style: solid;
 
-	--toggle-inactive-color: #5a4040;
-   --toggle-inactive-shade: #5a4040;
-	--toggle-active-color: #5a4040;
-   --toggle-active-shade: #5a4040;
-	--toggle-text-color: #5a4040;
+	--toggle-inactive-color: #ff5100;
+   --toggle-inactive-shade: #e44800;
+	--toggle-active-color: #ff3300;
+   --toggle-active-shade: #f03000;
+	--toggle-text-color: #751200;
 
 }
 
@@ -119,7 +119,6 @@
 /* modmenu header text styling */
 .header-text {
    /* positioning */
-   margin-bottom: 4px;
 	margin-right: 4px;
 	margin-left: auto;
 
@@ -131,7 +130,6 @@
 }
 .stage {
    /* positioning */
-   margin-bottom: 4px;
 	margin-right: auto;
 	margin-left: 4px;
 
@@ -148,7 +146,7 @@
 .minimize {
    /* positioning */
    margin: auto;
-   margin-bottom: 4px;
+   margin-bottom: -1px;
    margin-right: 0px;
 	margin-left: 0px;
 	text-align: left;
@@ -237,11 +235,17 @@
    /* colors */
    border-color: var(--textbox-border-color);
    background-color: var(--textbox-color);
+   color: var(--textbox-text-color);
 
    /* misc */
 	overflow: hidden;
 }
 .toggle {
+   /* font, borders */
+   font-family: var(--font);
+   border-radius: 2px;
+   font-size: 12px;
+
    /* positioning */
    text-align: center;
    position: relative;
@@ -252,10 +256,8 @@
 	height: var(--toggle-height);
 	width: var(--toggle-width);
 
-   /* font, borders */
-   font-family: var(--font);
-	border-radius: 2px;
-   font-size: 12px;
+   /* colors */
+   color: var(--toggle-text-color);
 
    /* misc */
 	overflow: hidden;
@@ -276,7 +278,7 @@
 	background-color: var(--toggle-inactive-color);
 	border-color: var(--toggle-inactive-color);
 }
-.toggle.active:active {
+.toggle.active:hover {
    /* borders */
    border: 2px solid;
 
@@ -284,7 +286,7 @@
 	background-color: var(--toggle-active-shade);
 	border-color: var(--toggle-active-shade);
 }
-.toggle.inactive:active {
+.toggle.inactive:hover {
    /* borders */
    border: 2px solid;
 
