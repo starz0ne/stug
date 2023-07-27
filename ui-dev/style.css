@@ -1,0 +1,303 @@
+/* global variables */
+:root {
+	/* global z-index */
+	--global-importance: 150;
+
+	/* textbox/toggle */
+	--textbox-width: calc(var(--modmenu-width) - 166px);
+	--textbox-height: 20px;
+
+	--toggle-width: calc(var(--textbox-width) - 70px);
+	--toggle-height: 32px;
+
+	/* maximize/minimize */
+	--maximize-button-left: 0px;
+
+	/* modmenu */
+   --modmenu-header-padding: 2px;
+	--modmenu-height: 300px;
+	--modmenu-width: 340px;
+	--visibility: visible;
+
+	/* theme */
+   --font: Orbitron;
+
+	--main-color: #c7acac;
+	--main-border-color: #5a4040;
+	--main-border-style: solid;
+	--main-text-color: #000000;
+
+	--header-color: #5a4040;
+	--header-border-color: #a38f8f;
+	--header-border-style: solid;
+	--header-text-color: #000000;
+
+   --minimize-border-color: #000000;
+   --minimize-shade: #5a4040;
+   --minimize-color: #000000;
+
+   --minimized-color: #423939;
+
+   --maximize-border-color: #000000;
+   --maximize-shade: #5a4040;
+   --maximize-color: #000000;
+
+   --stage-text-color: #000000;
+
+	--textbox-color: #5a4040;
+	--textbox-text-color: #5a4040;
+   --textbox-border-color: #5a4040;
+   --textbox-border-style: solid;
+
+	--toggle-inactive-color: #5a4040;
+   --toggle-inactive-shade: #5a4040;
+	--toggle-active-color: #5a4040;
+   --toggle-active-shade: #5a4040;
+	--toggle-text-color: #5a4040;
+
+}
+
+/* main modmenu styling */
+.modmenu {
+   /* font, borders */
+   border: 4px var(--main-border-style);
+	font-family: var(--font);
+   border-radius: 10px;
+
+   /* dimensions */
+   position: absolute !important;
+   height: var(--modmenu-height);
+   width: var(--modmenu-width);
+
+   /* colors */
+   border-color: var(--main-border-color);
+   background-color: var(--main-color);
+   color: var(--main-text-color);
+
+   /* misc */
+	z-index: var(--global-importance);
+}
+.modmenu-header {
+   /* positioning */
+	justify-content: center;
+	flex-direction: row;
+	align-items: center;
+	display: flex;
+	cursor: move;
+
+   /* dimensions */
+   padding: var(--modmenu-header-padding);
+
+   /* borders */
+	border-bottom: 4px var(--header-border-style);
+	border-radius: 4px 4px 0 0;
+
+   /* colors */
+   border-color: var(--header-border-color);
+   background-color: var(--header-color);
+
+   /* misc */
+   user-select: none;
+}
+.modmenu-content {
+   /* positioning */
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+
+   /* dimensions */
+	display: flex;
+	padding: 20px;
+
+   /* misc */
+   visibility: var(--visibility);
+   overflow: auto;
+}
+
+
+
+/* modmenu header text styling */
+.header-text {
+   /* positioning */
+   margin-bottom: 4px;
+	margin-right: 4px;
+	margin-left: auto;
+
+   /* colors */
+   color: var(--header-text-color);
+
+   /* misc */
+   visibility: var(--visibility);
+}
+.stage {
+   /* positioning */
+   margin-bottom: 4px;
+	margin-right: auto;
+	margin-left: 4px;
+
+   /* colors */
+	color: var(--stage-text-color);
+
+   /* misc */
+   visibility: var(--visibility);
+}
+
+
+
+/* minimize and maximize styling */
+.minimize {
+   /* positioning */
+   margin: auto;
+   margin-bottom: 4px;
+   margin-right: 0px;
+	margin-left: 0px;
+	text-align: left;
+
+   /* colors */
+   border-color: var(--minimize-border-color);
+   color: var(--minimize-color);
+}
+.minimize:after {
+   /* positioning */
+   position: relative;
+
+   /* dimensions */
+   padding-right: 2px;
+	padding-left: 2px;
+
+   /* borders */
+	border: 2px dashed;
+	border-radius: 6px;
+
+   /* misc */
+	content: "\d7";
+}
+.minimize:hover {
+   /* colors */
+	background-color: var(--minimize-shade);
+}
+.minimize.hidden {
+   /* misc */
+	visibility: hidden;
+}
+.maximize {
+   /* positioning */
+   margin: auto;
+   text-align: left;
+	margin-right: 0px;
+	margin-left: var(--maximize-button-left);
+
+   /* colors */
+	border-color: var(--maximize-border-color);
+	color: var(--maximize-color);
+}
+.maximize:after {
+   /* positioning */
+   position: relative;
+
+   /* dimensions */
+	padding-right: 8px;
+	padding-left: 8px;
+   padding-bottom: 3px;
+
+   /* borders */
+   border: 2px dashed;
+	border-radius: 6px;
+
+   /* misc */
+	content: "\2197";
+}
+.maximize:hover {
+   /* colors */
+	background-color: var(--maximize-shade);
+}
+.maximize.hidden {
+   /* misc */
+	visibility: hidden;
+}
+
+
+
+/* toggle button styling */
+.textbox {
+   /* positioning */
+   text-align: center;
+	position: relative;
+   margin: auto;
+
+   /* dimensions */
+   height: var(--textbox-height);
+	width: var(--textbox-width);
+   padding: 1px;
+
+   /* borders */
+   border: 5px var(--textbox-border-style);
+   border-radius: 2px;
+
+   /* colors */
+   border-color: var(--textbox-border-color);
+   background-color: var(--textbox-color);
+
+   /* misc */
+	overflow: hidden;
+}
+.toggle {
+   /* positioning */
+   text-align: center;
+   position: relative;
+   margin: auto;
+	margin-left: 10px;
+
+   /* dimensions */
+	height: var(--toggle-height);
+	width: var(--toggle-width);
+
+   /* font, borders */
+   font-family: var(--font);
+	border-radius: 2px;
+   font-size: 12px;
+
+   /* misc */
+	overflow: hidden;
+}
+.toggle.active {
+   /* borders */
+   border: 2px solid;
+
+   /* colors */
+	background-color: var(--toggle-active-color);
+	border-color: var(--toggle-active-color);
+}
+.toggle.inactive {
+   /* borders */
+   border: 2px solid;
+
+   /* colors */
+	background-color: var(--toggle-inactive-color);
+	border-color: var(--toggle-inactive-color);
+}
+.toggle.active:active {
+   /* borders */
+   border: 2px solid;
+
+   /* colors */
+	background-color: var(--toggle-active-shade);
+	border-color: var(--toggle-active-shade);
+}
+.toggle.inactive:active {
+   /* borders */
+   border: 2px solid;
+
+   /* colors */
+	background-color: var(--toggle-inactive-shade);
+	border-color: var(--toggle-inactive-shade);
+}
+
+
+
+/* section spacing */
+section {
+	justify-content: space-between;
+	display: flex;
+	margin-bottom: 8px;
+}
