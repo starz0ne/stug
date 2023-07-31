@@ -1,7 +1,7 @@
 /* global variables */
 :root {
 	/* global z-index */
-	--global-importance: 150;
+	--global-importance: 600;
 
 	/* textbox/toggle */
 	--textbox-width: calc(var(--modmenu-width) - 166px);
