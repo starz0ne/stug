@@ -13,18 +13,20 @@
 
 // +++++++++++++++++++ MODMENU INJECTION
 // prepare elements
-var cL = document.createElement('link');
+var cL = document.createElement('style');
 var dE = document.createElement('div');
 
 // get html file
-let response = await fetch(
+let hresponse = await fetch(
    'https://raw.githubusercontent.com/starz0ne/stug/master/ui-dev/inject.html'
-); let temp = await response.text();
-dE.innerHTML = temp;
+); let htemp = await hresponse.text();
+dE.innerHTML = htemp;
 
-// set css link
-cL.href = "https://raw.githubusercontent.com/starz0ne/stug/master/ui-dev/style.css";
-cL.rel = "stylesheet";
+// get css file
+let cresponse = await fetch(
+  'https://raw.githubusercontent.com/starz0ne/stug/master/ui-dev/style.css'
+); let ctemp = await cresponse.text();
+cL.innerHTML = ctemp;
 
 // inject elements
 document.head.appendChild(cL);
