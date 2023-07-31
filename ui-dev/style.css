@@ -64,8 +64,13 @@
 	font-family: var(--font);
    border-radius: 10px;
 
-   /* dimensions */
+   /* positioning */
    position: absolute !important;
+   justify-content: right;
+   display: flex;
+
+
+   /* dimensions */
    height: var(--modmenu-height);
    width: var(--modmenu-width);
 
