@@ -201,7 +201,7 @@
    /* dimensions */
 	padding-right: 8px;
 	padding-left: 8px;
-   padding-bottom: 3px;
+   padding-bottom: 3px !important;
 
    /* borders */
    border: 2px dashed;
@@ -229,7 +229,7 @@
    margin: auto;
 
    /* dimensions */
-   height: var(--textbox-height);
+   height: var(--textbox-height) !important;
 	width: var(--textbox-width);
    padding: 1px;
 
