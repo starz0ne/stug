@@ -66,9 +66,6 @@
 
    /* positioning */
    position: absolute !important;
-   justify-content: right;
-   display: flex;
-
 
    /* dimensions */
    height: var(--modmenu-height);
