@@ -8,7 +8,7 @@
 
 	/* textbox/toggle */
 	--textbox-width: calc(var(--modmenu-width) - 166px);
-	--textbox-height: var(-toggle-height);
+	--textbox-height: 20px;
 
 	--toggle-width: calc(var(--textbox-width) - 70px);
 	--toggle-height: 32px;
