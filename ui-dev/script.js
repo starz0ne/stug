@@ -7,6 +7,7 @@ const ggcrv = (e) => getComputedStyle(document.documentElement).getPropertyValue
 // initialize some variables
 let offsetX, offsetY, isDragging = false;
 let mainbordercolor, headerbordercolor, headercolor;
+let headerheight, modmenuheight, modmenuwidth;
 
 // functions for handling dragging
 function handleMouseDown(event) {
@@ -41,6 +42,9 @@ const handleToggle = (element) => {
 // functions for handling the minimize/maximize button
 const minimizeModMenu = () => {
   /// change dimensions
+  headerheight = ggcrv('--modmenu-header-height');
+  modmenuheight = ggcrv('--modmenu-height');
+  modmenuwidth = ggcrv('--modmenu-width');
   cdrce('--modmenu-header-height', '5px');
   cdrce('--modmenu-height', '28px');
   cdrce('--modmenu-width', '33px');
@@ -77,9 +81,9 @@ const maximizeModMenu = () => {
   cdrce('--header-color', headercolor);
 
   /// change dimensions
-  cdrce('--modmenu-width', '340px');
-  cdrce('--modmenu-height', '300px');
-  cdrce('--modmenu-header-height', '8px');
+  cdrce('--modmenu-width', modmenuwidth);
+  cdrce('--modmenu-height', modmenuheight);
+  cdrce('--modmenu-header-height', headerheight);
 };
 
 // exploit functions
