@@ -232,7 +232,6 @@
    /* dimensions */
    height: var(--textbox-height) !important;
 	width: var(--textbox-width);
-   padding: 1px;
 
    /* borders */
    border: 5px var(--textbox-border-style);
