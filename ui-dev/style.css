@@ -64,6 +64,7 @@
    /* font, borders */
    border: 4px var(--main-border-style);
 	font-family: var(--font);
+   box-sizing: content-box;
    border-radius: 10px;
 
    /* positioning */

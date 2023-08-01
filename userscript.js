@@ -40,7 +40,7 @@ const cdrce = (e, v) => document.documentElement.style.setProperty(e, v);
 const ggcrv = (e) => getComputedStyle(document.documentElement).getPropertyValue(e).trim();
 
 // apply css fixes for bugs
-cdrce('--textbox-height', 'var(--toggle-height)');
+// cdrce('--textbox-height', 'var(--toggle-height)');
 
 // initialize some variables
 let offsetX, offsetY, isDragging = false;
@@ -84,7 +84,7 @@ const minimizeModMenu = () => {
   modmenuheight = ggcrv('--modmenu-height');
   modmenuwidth = ggcrv('--modmenu-width');
   cdrce('--modmenu-header-height', '5px');
-  cdrce('--modmenu-height', '38px');
+  cdrce('--modmenu-height', '28px');
   cdrce('--modmenu-width', '33px');
 
   /// change colors
