@@ -64,7 +64,7 @@
    /* font, borders */
    border: 4px var(--main-border-style);
 	font-family: var(--font);
-   box-sizing: content-box;
+   box-sizing: content-box !important;
    border-radius: 10px;
 
    /* positioning */
@@ -210,7 +210,7 @@
 	border-radius: 6px;
 
    /* misc */
-   box-sizing: content-box;
+   box-sizing: content-box !important;
 	content: "\2197";
 }
 .maximize:hover {
@@ -245,7 +245,7 @@
    color: var(--textbox-text-color);
 
    /* misc */
-   box-sizing: content-box;
+   box-sizing: content-box !important;
 	overflow: hidden;
 }
 .toggle {
