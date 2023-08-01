@@ -84,7 +84,7 @@ const minimizeModMenu = () => {
   modmenuheight = ggcrv('--modmenu-height');
   modmenuwidth = ggcrv('--modmenu-width');
   cdrce('--modmenu-header-height', '5px');
-  cdrce('--modmenu-height', '28px');
+  cdrce('--modmenu-height', '30px');
   cdrce('--modmenu-width', '33px');
 
   /// change colors
