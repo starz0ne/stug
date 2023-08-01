@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Dusty (Stug.io ModMenu)
 // @namespace    http://tampermonkey.net/
-// @version      1.9
+// @version      1.9.9
 // @description  Just your regular stug.io mod menu
-// @author       cosmicdust
+// @author       starzone/cosmicdust
 // @match        https://stug.io/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=stug.io
 // @grant        none
