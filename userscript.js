@@ -151,7 +151,7 @@ minimize.onclick = () => minimizeModMenu();
 maximize.onclick = () => maximizeModMenu();
 
 // process interactions for modmenu features
-shotgun.onclick = function() {
+shotgunmode.onclick = function() {
    handleToggle(this);
    shotgunMode();
 };
