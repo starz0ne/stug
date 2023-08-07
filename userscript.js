@@ -126,8 +126,8 @@ const maximizeModMenu = () => {
 // >_: no hooks found
 
 // exploit functions
-const anonymityMode = () => { // type: lobby_hack
-   console.log('[dusty] anonymity mode enabled!');
+const shotgunMode = () => { // type: patch_hack
+   console.log('[dusty] shotgun mode enabled! (*DOOM MUSIC*)');
    game.lobbyComponent.setCurrentPlayerId(undefined);
 };
 // ++++++++++++++++++++++++++++++++
@@ -139,7 +139,7 @@ const minimize = idget('mini');
 const maximize = idget('maxi');
 
 // variables for modmenu feature elements
-const anonymitymode = idget('am-m');
+const shotgunmode = idget('sg-m');
 
 // event listener for dragging
 modmenuheader.addEventListener('mousedown', handleMouseDown);
@@ -151,11 +151,9 @@ minimize.onclick = () => minimizeModMenu();
 maximize.onclick = () => maximizeModMenu();
 
 // process interactions for modmenu features
-anonymitymode.onclick = function() {
-   if (game.lobbyComponent) {
-      handleToggle(this);
-      anonymityMode();
-   }
+shotgun.onclick = function() {
+   handleToggle(this);
+   shotgunMode();
 };
 
 })();

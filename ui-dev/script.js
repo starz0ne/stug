@@ -92,7 +92,7 @@ const minimize = idget('mini');
 const maximize = idget('maxi');
 
 // variables for modmenu feature elements
-const anonymitymode = idget('am-m');
+const shotgunmode = idget('sg-m');
 
 // event listener for dragging
 modmenuheader.addEventListener('mousedown', handleMouseDown);
@@ -104,9 +104,7 @@ minimize.onclick = () => minimizeModMenu();
 maximize.onclick = () => maximizeModMenu();
 
 // process interactions for modmenu features
-anonymitymode.onclick = function() {
-   if (game.lobbyComponent) {
-      handleToggle(this);
-      anonymityMode();
-   }
+shotgun.onclick = function() {
+   handleToggle(this);
+   shotgunMode();
 };
