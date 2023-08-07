@@ -39,9 +39,6 @@ const qrget = (e) => document.querySelector(e);
 const cdrce = (e, v) => document.documentElement.style.setProperty(e, v);
 const ggcrv = (e) => getComputedStyle(document.documentElement).getPropertyValue(e).trim();
 
-// apply css fixes for bugs
-// cdrce('--textbox-height', 'var(--toggle-height)');
-
 // initialize some variables
 let offsetX, offsetY, isDragging = false;
 let mainbordercolor, headerbordercolor, headercolor;
