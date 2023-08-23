@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>STUG - Multiplayer Tank Battles</title>
+        <meta name="description" content="STUG is a free skill based 2D multiplayer tank game with exaggerated shell ricochet physics. Battle other players in a full on tank war! One of the best free online tank games. Each match is an intense battle featuring multiple different tank types and abilities.">
+        <meta property="og:title" content="STUG">
+        <meta property="og:url" content="https://stug.io/">
+        <meta property="og:type" content="game">
+        <meta property="og:description" content="STUG is a free skill based 2D multiplayer tank game with exaggerated shell ricochet physics. Battle other players in a full on tank war! One of the best free online tank games. Each match is an intense battle featuring multiple different tank types and abilities.">
+        <meta property="og:image" content="https://stug.io/assets/screenshot2.png">
+        <meta charset="utf-8">
+        <!--<meta http-equiv="Content-Security-Policy" content="script-src 'self' 'sha256-aagdz1YDQeHHYaA/xcYWrUIyx4ZbXZVrFqb5NGEzBOw=' 'sha256-xKYnSvfwyt/lo2hzFlRSExmFqvx/xF5rcFU/M3eUo68=' https://www.google-analytics.com/ https://accounts.google.com/ https://api.adinplay.com/ https://js.stripe.com/ https://m.stripe.com/;">-->
+        <base href="/">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" name="viewport">
+        <!-- inject:css -->
+        <link rel="stylesheet" href="css/styles.css?v=1684033151637">
+        <!-- endinject -->
+        <style>
+            html {
+                cursor: url('/assets/menu/cursor_pointer.png'), auto !important;
+            }
+
+            body {
+                margin: 0;
+                padding: 0;
+                text-align: center;
+                overflow-x: hidden;
+                overflow-y: hidden;
+                background-color: #000000;
+                font-family: 'Recursive', sans-serif !important;
+                -ms-overflow-style: none;
+                scrollbar-width: none;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+                cursor: url('/assets/menu/cursor_pointer.png'), auto !important;
+            }
+
+            button {
+                cursor: url('/assets/menu/cursor_pointer.png'), auto !important;
+            }
+
+            a {
+                cursor: url('/assets/menu/cursor_pointer.png'), auto !important;
+            }
+
+            input {
+                cursor: url('/assets/menu/cursor_pointer.png'), auto !important;
+            }
+
+            * {
+                outline: none;
+            }
+
+            select, label {
+                cursor: url('/assets/menu/cursor_pointer.png'), auto !important;
+            }
+        </style>
+        <script>
+            var html = (s)=>{
+                return s[0];
+            }
+            ;
+            var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            var isPhoneApp = false;
+            var isDesktopApp = false;
+            if (window.location.host === 'appassets.androidplatform.net') {
+                isMobile = true;
+                isPhoneApp = true;
+            }
+            try {
+                if (navigator.userAgent.toLowerCase().indexOf(' electron/') > -1) {
+                    isDesktopApp = true;
+                }
+            } catch (e) {}
+
+            window.addEventListener('resize', onResize);
+            function onResize() {
+                var container = document.getElementById('ui');
+                if (container) {
+                    var width = window.innerWidth;
+                    var height = window.innerHeight;
+                    var maxWidth = 1700;
+                    var maxHeight = 1000;
+                    var widthScale = width / maxWidth;
+                    var heightScale = height / maxHeight;
+                    if (heightScale < widthScale) {
+                        container.style.transform = 'scale(' + heightScale.toFixed(3) + ')';
+                        container.style.width = ((width / heightScale) + 2).toFixed(3) + 'px';
+                        container.style.height = (maxHeight + 2) + 'px';
+                    } else {
+                        container.style.transform = 'scale(' + widthScale.toFixed(3) + ')';
+                        container.style.width = (maxWidth + 2) + 'px';
+                        container.style.height = ((height / widthScale) + 2).toFixed(3) + 'px';
+                    }
+                }
+            }
+            setTimeout(function() {
+                onResize();
+            }, 1);
+
+            if (typeof window.onerror == 'object') {
+                window.onerror = function(err, url, line, col) {
+                    try {
+                        if (window.gtag) {
+                            gtag('event', 'exception', {
+                                'description': line + ':' + col + ' ' + err
+                            });
+                        }
+                    } catch (e) {
+                        console.error('Failed to send error:', e);
+                    }
+                }
+                ;
+            }
+        </script>
+    </head>
+    <body>
+        <div class="text-center" id="ui" style="position:absolute; overflow:hidden; transform-origin:0 0; top:0; left:0; color:white; z-index:90;">
+            <div style="pointer-events:auto!important;">
+                <div id="app"></div>
+                <div id="loading" class="text-center" style="margin:1px; position:relative; top:15vh; background:url('/assets/background.jpg'); background-color: #000000; background-size:cover;">
+                    <img width="512" height="256" class="animate__animated animate__pulse animate__infinite animate__slower" src="assets/logo.png" style="border-radius:20px;" alt="STUG">
+                    <img width="128" height="128" src="assets/loading.gif">
+                    <br>
+                    <br>
+                    <h3>LOADING</h3>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div class="d-none d-sm-block" style="position:fixed; left:0; bottom:150px; margin:0; padding:24px; width:100%; background:rgba(0,0,0,0.5);">
+                        <h3 id="tips" style="margin-left:auto; margin-right:auto; max-width:75%;"></h3>
+                    </div>
+                    <div class="footer">
+                        <div>
+                            Copyright © 2023 <a href="https://bombsightgames.com/" target="_blank">Bombsight Games</a>
+                            . All Rights Reserved.
+                        </div>
+                        <span id="catchphrases"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            let tips = ['Always defend your rear armor, one shot there and you are dead!', 'Angle your tank slightly to ricochet incoming fire.', 'You can boost into enemies to do ramming damage.', 'Press middle mouse to alert teammates to a position on the map.', 'Get behind cover when reloading.', 'Bounce your shots off of walls and other tanks to get extra XP!', 'Larger caliber guns will penetrate at wider angles than smaller caliber guns.', 'If you are a light tank you should avoid taking damage by quickly moving around the map.', 'If you are a heavy tank you are slow and should stay with teammates to avoid being flanked.', 'There is no best vehicle in the game, but some are easier to use than others.', 'Don\'t repair out in the open, one shot while you are repairing and you are dead!', 'Your tank turns faster when you are not moving forward or backwards.', 'If your vehicle has wheels, you can press spacebar to use the handbrake and drift.', 'Use XP boosts to increase the XP you gain from a match and research faster!', 'You can break open destroyed vehicles to get repair kits!', 'You should save your boost to flank enemies or to run from them when damaged.', 'Join our Discord server for game updates and to talk with other players!', 'Your turret takes time to turn, make sure your crosshairs are lined up before you fire!', 'You can launch grenades over walls if they are close enough to you!', ];
+            document.getElementById('tips').innerHTML = tips[Math.floor(Math.random() * tips.length)];
+
+            let catchphrases = ['Just Testing', 'On Target!', 'In Thrust we Trust', 'Games Made While-U-Wait', 'No Numbers in the IP Address Box', 'Hi mom!', 'Horrido!', 'SCE to Aux', 'Go Facepunch!', 'Spin 2 Win', 'Number 1, Hit the Silk!', 'Bobanya', 'Engine: Overheat', 'Engine: Out Of Fuel', 'Torpedo Failed on Entry into Water', 'Scrub', 'Go Home', 'Catch Fries', 'Excelsior!', 'Panic Punishable by Ejection', 'Your PayPal Account has been successfully charged.', 'I was hoping for a nice stroll', 'Einsatzbericht!', 'Einsatzbereit!', 'Get Out of Here Stalker.', 'Boom and Zoom', 'Turn and Burn', 'o7', 'I see nothing! I was not here! I did not even wake up this morning!', 'He who wants to be victorious on the sea must always attack.', 'Broadsword calling Danny Boy', 'In Amsterdam there lived a maid, mark well what I do say!', 'Strike the Earth!', 'Sink them all!', 'I\'ll gladly pay you Tuesday for a hamburger today.', 'Shut up, Ray', 'STUG Life', 'Look out! Stop that! Oh no!', 'cheese', 'Are NoNames cool?', 'lol', '🐜'];
+            document.getElementById('catchphrases').innerHTML = catchphrases[Math.floor(Math.random() * catchphrases.length)];
+        </script>
+        <div id="ad-game" style="display:none; position:absolute; width:300px; height:250px; z-index:100; top:60vh; left:50vw; margin-left:-150px;">
+            <div id="stug-io_300x250"></div>
+        </div>
+        <div id="preroll-container">
+            <div id="preroll"></div>
+        </div>
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="loading-overlay-text">
+                <img width="128" height="128" src="assets/loading.gif">
+                <br>
+                <br>
+                <h4>LOADING</h4>
+            </div>
+        </div>
+        <div id="webgl-disabled-message" style="display:none;">
+            <div class="loading-overlay-text">
+                <br>
+                <br>
+                <img style="max-width:90%; border-radius:20px;" src="assets/logo.png" alt="STUG">
+                <h3 style="color:#de0000;">ERROR: WebGL is Disabled</h3>
+                <br>
+                <p>
+                    It looks like you have <b>WebGL</b>
+                    and/or <b>Hardware Acceleration</b>
+                    disabled in your browser, try to enable it in your <b>browser settings</b>
+                    .<br>
+                    STUG requires WebGL and Hardware Acceleration to be enabled to play.<br>
+                    <br>
+                    We officially support these browsers, try one of these if the problem persists:<br>
+                    Chrome, Firefox, Edge, and OperaGX<br>
+                    <br>
+                </p>
+                <div>
+                    <a href="https://discord.gg/JqhpCJrvA9" target="_blank" style="padding:2px; width:200px;" class="app-old-social-button fa fa-discord" @mouseenter="bme" v-on:click="bmc()">
+                        <img style="margin-top:-4px;" src="assets/discord_logo.svg">
+                    </a>
+                    <p>Join us on Discord for support!</p>
+                </div>
+                <br>
+                <div>
+                    You can also email us for support at:<br>
+                    <a class="selectable" href="mailto:support@bombsightgames.com">support@bombsightgames.com</a>
+                </div>
+            </div>
+        </div>
+        <div id="mobile-disabled-message" style="display:none;">
+            <div class="loading-overlay-text">
+                <br>
+                <br>
+                <img style="max-width:90%; border-radius:20px;" src="assets/logo.png" alt="STUG">
+                <h4>Mobile support for STUG is not available yet!</h4>
+                <br>
+                <p>
+                    Please check out the game on a desktop computer.<br>
+                    We will eventually add mobile support!<br>
+                    <br>
+                </p>
+                <div>
+                    <a href="https://discord.gg/JqhpCJrvA9" target="_blank" style="padding:2px; width:200px;" class="app-old-social-button fa fa-discord" @mouseenter="bme" v-on:click="bmc()">
+                        <img style="margin-top:-4px;" src="assets/discord_logo.svg">
+                    </a>
+                    <p>Join us on Discord for updates!</p>
+                </div>
+            </div>
+        </div>
+        <div class="game-menu-button" style="display:none;">
+            <a href="#" onclick="event.preventDefault(); game.showScoreboard()" tabindex="-1">
+                <i class="fa fa-bars fa-4x" style="color:white;"></i>
+            </a>
+        </div>
+        <div class="modal modal-fullscreen" id="aboutModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fa fa-question-mark-circle"></i>
+                            About
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <img src="/assets/screenshot2_lowres.png" style="max-height:400px; border-radius:10px;" class="img-fluid" alt="STUG">
+                        <h3>
+                            STUG<br>Multiplayer Tank Combat
+                        </h3>
+                        <br>
+                        <br>
+                        <p class="text-left">STUG is a free skill based 2D multiplayer tank game with exaggerated shell ricochet physics. Battle other players in a full on tank war! STUG is one of the best tank games available online for free! Each match is an intense battle featuring multiple different tank types and abilities.</p>
+                        <br>
+                        <p class="text-left">STUG is inspired by real tank combat with a twist on shell bouncing and ricochets. Destroy enemy tanks, research and unlock new weapons, work with your team, and fight your way to the top.</p>
+                        <br>
+                        <p class="text-left">
+                            STUG is owned and developed by <a target="_blank" href="https://bombsightgames.com/">Bombsight Games</a>
+                            . We can be contacted there or by emailing <a href="mailto:contact@bombsightgames.com">contact@bombsightgames.com</a>
+                            .
+                        </p>
+                        <br>
+                        <p class="text-left">Feel free to contact us with ideas you may have!</p>
+                        <br>
+                        <br>
+                        <h5>
+                            <i class="fa fa-info-circle"></i>
+                            For support/help please email:<br>
+                            <a class="selectable" href="mailto:support@bombsightgames.com">support@bombsightgames.com</a>
+                        </h5>
+                        <br>
+                        <br>
+                        <div class="text-left">
+                            <h5>Links</h5>
+                            <ul>
+                                <li>
+                                    <a target="_blank" href="https://store.steampowered.com/app/1920500/STUG/">STUG on Steam</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://discord.gg/JqhpCJrvA9">STUG Discord</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://www.reddit.com/r/stugio/">STUG Reddit</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://www.tiktok.com/@stug_game">STUG TikTok</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://twitter.com/bombsightgames">STUG Twitter</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="text-left">
+                            <h5>Affiliates</h5>
+                            <ul>
+                                <li>
+                                    <a target="_blank" href="https://www.kongregate.com/">kongregate.com</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://www.crazygames.com/c/io">CrazyGames.com</a>
+                                </li>
+                                <li>
+                                    <a target="_blank" href="https://iogames.space/">iogames.space</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <br>
+                        <br>
+                        <div>©2023 Valve Corporation. Steam and the Steam logo are trademarks and/or registered trademarks of Valve Corporation in the U.S. and/or other countries.</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal modal-fullscreen selectable" id="changeLogModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">
+                            <i class="fa fa-list"></i>
+                            Change Log
+                        </h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="text-left" id="change-log-text">
+                            <b>5/11/2023</b>
+                            <p>+ New Gamemode: Tank Ball</p>
+                            <p>+ New Bundle: Scorched Earth Bundle</p>
+                            <p>+ New Camos: Cubist, Flaming, Ocean, Retro</p>
+                            <p>+ New Decal Bundles: Fungus, Streets, Jersey, Scars</p>
+                            <p>+ New Emotes: Salty, Tabby</p>
+                            <p>+ Added versus indicator to Battle</p>
+                            <p>+ Added setting to disable screen shake</p>
+                            <p>* Ram damage is now based on tank type and weight</p>
+                            <p>* E1 Starhund: Reload 1.5s -> 2.1s, Armament 26mm -> 30mm</p>
+                            <p>* Haus: Engine Boost 650 hp -> 900 hp</p>
+                            <p>* Jagdsherwin: Updated front armor hitbox</p>
+                            <p>* Fixed vehicles being able to fire through walls</p>
+                            <p>* Fixed multiple rams sometimes happening</p>
+                            <p>* Fixed chat not closing when escape is pressed</p>
+                            <p>* Fixed scoreboard not working during replays</p>
+                            <hr>
+                            <b>4/12/2023</b>
+                            <p>* Changed Gamemode: Tank Game</p>
+                            <p>* Tank Game: Changed vehicle lineup</p>
+                            <p>* Removed and updated some challenges</p>
+                            <p>* Challenges no longer show in private games</p>
+                            <p>* Updated shop tab art</p>
+                            <hr>
+                            <b>3/13/2023</b>
+                            <p>+ Added daily challenges</p>
+                            <p>+ New theme music for menu and in game</p>
+                            <p>+ Added setting for music volume</p>
+                            <p>* Changed Gamemode: Capture the Flag</p>
+                            <p>* Landmines now explode near the flag in CTF</p>
+                            <p>* M42 Chuffy: Decreased hitbox size over tracks</p>
+                            <p>* Pummeler II: Engine Reverse 176hp -> 218hp, Armament 46mm -> 50mm</p>
+                            <p>* Fixed AFK kick sometimes kicking dead players</p>
+                            <p>* Fixed replays sometimes following the shot of the victim</p>
+                            <hr>
+                            <b>2/23/2023</b>
+                            <p>* Changed Gamemode: Free for All</p>
+                            <p>* E1 Starhund: Increased hitbox size by about 30%</p>
+                            <p>* Haus: Turret Speed 9°/s -> 11°/s</p>
+                            <p>* VK-1 Bogatyr: Armament 83mm -> 84mm</p>
+                            <p>* Improved spawn turrets</p>
+                            <p>* Fixed map textures sometimes not loading</p>
+                            <p>* Decreased spawn protection in battle mode</p>
+                            <hr>
+                            <b>2/19/2023</b>
+                            <p>+ Added rank icon to game list</p>
+                            <p>* Made option to join invite code more apparent</p>
+                            <p>* Improved error handling when your session is expired</p>
+                            <p>* Ensure scrollbars show properly in menus</p>
+                            <hr>
+                            <b>1/28/2023</b>
+                            <p>+ New Gamemode: Mystery Tanks</p>
+                            <p>+ New Gamemode: Free for All</p>
+                            <p>+ Added settings for key binds</p>
+                            <p>* Free login rewards are now limited to 100 per boost type (Use your boosts!!)</p>
+                            <p>* Improved bot movement</p>
+                            <p>* Haus: Rear Armor 61mm -> 91mm</p>
+                            <p>* Updated gamemode icons</p>
+                            <p>* Decreased AFK timer from 3 to 2 minutes</p>
+                            <p>* Fixed grenade lag in low quality mode</p>
+                            <p>* Players below rank 18 have a K/D lower score for matchmaking</p>
+                            <hr>
+                            <b>12/16/2022</b>
+                            <p>+ Added Premium Emotes: Big Brain, Locomotive, Spilled Milk, Spin to Win, Total Cheese</p>
+                            <p>+ Added Free Emotes: GG, Heart, Negative, Peace, Retreat</p>
+                            <p>+ Added Emote equipping</p>
+                            <p>
+                                + New Limited Time Camo Bundles:<br>&nbsp;&nbsp;&nbsp;Holiday Digital, Holiday Holly, Holiday Splinter, Holiday Sweater
+                            </p>
+                            <p>+ New ping location animation</p>
+                            <p>+ You can now press E to ping a location</p>
+                            <p>* Updated game menu</p>
+                            <p>* Disabled team joining in public lobbies to force auto balancing</p>
+                            <p>* Conquest: Badly losing team now gets 25% respawn timer decrease</p>
+                            <p>* Increased spawn protection</p>
+                            <p>* Fixed duplicate Queen Tigress issue in Tiger Hunt</p>
+                            <hr>
+                            <b>12/2/2022</b>
+                            <p>+ New Map: Battlements (Conquest)</p>
+                            <p>+ New Lobby and Round End UI</p>
+                            <p>+ New Premium Vehicle: P-34/85 Pixel</p>
+                            <p>+ New Premium Vehicle: Sturg III Pixel</p>
+                            <p>+ New Premium Vehicle: Pummeler IV Pixel</p>
+                            <p>+ New Premium Vehicle: M42 Chuffy Pixel</p>
+                            <p>+ New Premium Vehicle: M4 Sherwin Pixel</p>
+                            <p>+ New Camo Bundles: Party, Plaid, Cow</p>
+                            <p>+ New Decal Bundles: Space, Cow</p>
+                            <p>+ Added emotes (Use with Right Click or CTRL)</p>
+                            <p>+ Added drift marks for wheeled vehicles</p>
+                            <p>* Changed Gamemode: Tiger Hunt</p>
+                            <hr>
+                            <b>11/16/2022</b>
+                            <p>+ New Premium Vehicle: SI-2 Wasteland</p>
+                            <p>+ New Premium Vehicle: C3 Half-Track Jungle</p>
+                            <p>+ New Premium Vehicle: Hamonag AT Death Clown</p>
+                            <p>+ New Premium Vehicle: M88 Greyman Gunboat</p>
+                            <p>+ New Premium Vehicle: VK-1 Imperial</p>
+                            <p>* Increased premium vehicle bonus from 10% to 20%</p>
+                            <p>* Increased premium skin bonus from 8% to 12%</p>
+                            <p>* Fixed replays not always working in battle mode</p>
+                            <hr>
+                            <b>11/13/2022</b>
+                            <p>* Changed Gamemode: Tank Game</p>
+                            <p>* ZAG-MM Tachka: Updated front armor hitbox</p>
+                            <p>* ZAG-HG Scythe: Updated front armor hitbox</p>
+                            <p>* Fixed ability kills not being tracked on replays</p>
+                            <p>* Fixed replays sometimes tracking invalid players</p>
+                            <hr>
+                            <b>10/31/2022</b>
+                            <p>* Improved how replays are selected</p>
+                            <p>* Fixed AFK kicking not working sometimes</p>
+                            <p>- Removed Halloween Bundle</p>
+                            <hr>
+                            <b>10/19/2022</b>
+                            <p>+ New Gamemode: Capture the Flag</p>
+                            <p>+ New Bundle: Halloween Bundle</p>
+                            <p>* Updated E1 Starhund sprite</p>
+                            <p>* Fixed issue with Global Top Replays</p>
+                            <p>* Haus: Engine Boost 550 hp -> 650 hp, Turn Force 25 N⋅m -> 26 N⋅m</p>
+                            <hr>
+                            <b>9/14/2022</b>
+                            <p>* Shells now vary ricochet angles slightly the more it ricochets</p>
+                            <p>* Fixed game list joining issues</p>
+                            <p>* Fixed menu music issue</p>
+                            <hr>
+                            <b>9/10/2022</b>
+                            <p>+ New rank icons</p>
+                            <p>+ Added daily global top replays</p>
+                            <p>+ Replays now show player name</p>
+                            <p>* Fixed server crash</p>
+                            <hr>
+                            <b>9/1/2022</b>
+                            <p>+ New Vehicle: Pummeler II</p>
+                            <p>+ New Vehicle: Pummeler III</p>
+                            <p>+ New Vehicle: Pummeler IV</p>
+                            <p>+ New Vehicle: Heckler</p>
+                            <p>+ New Vehicle: Jagdpanthur</p>
+                            <p>+ New Vehicle: Panthur</p>
+                            <p>+ New Vehicle: Tigress I</p>
+                            <p>+ New Vehicle: Queen Tigress</p>
+                            <p>+ New Vehicle: Haus</p>
+                            <p>+ New Vehicle: Stub III</p>
+                            <p>+ New Vehicle: Stub IV</p>
+                            <p>+ New Vehicle: Hamonag AT</p>
+                            <p>+ New Vehicle: Cheetah</p>
+                            <p>+ New Premium Vehicle: Tigress I Desert Ace</p>
+                            <p>+ New Premium Vehicle: Heckler Bocage Ace</p>
+                            <p>+ New Gamemode: Tiger Hunt</p>
+                            <p>+ New Map: Garrison (Battle)</p>
+                            <p>+ New Decal Bundles: Taunts 1, Taunts 2, Taunts 3, Motherland</p>
+                            <p>+ New objective icons</p>
+                            <p>+ Added password reset function</p>
+                            <p>* Updated faction images and names</p>
+                            <p>* M5 Stout: Reload 2.75s -> 3.2s</p>
+                            <p>* Tigress I: Weight 23t -> 24t</p>
+                            <p>* M4 Jumbo: Reload 6s -> 6.4s</p>
+                            <p>* M4 Jumbo: Weight 23t -> 23.5t</p>
+                            <p>* Fixed name shadows sometimes being white</p>
+                            <hr>
+                            <b>8/5/2022</b>
+                            <p>+ New Premium Vehicle: M4 Jumbo Furious</p>
+                            <p>* Improved network connections</p>
+                            <p>* Implemented auto reconnect on connection loss</p>
+                            <p>* Improved aiming for vehicles with limited turret/barrel rotation</p>
+                            <p>* Improved invite links</p>
+                            <p>* Updated wheels</p>
+                            <p>* Changed name coloring</p>
+                            <hr>
+                            <b>8/1/2022</b>
+                            <p>+ New Premium Vehicle: VK-2 Warthog</p>
+                            <p>+ New Premium Vehicle: Jagdsherwin Ambush</p>
+                            <p>* Fixed players sometimes spawning in each other in battle</p>
+                            <p>* Fixed round indicators sometimes displaying incorrectly</p>
+                            <p>* Fixed hitbox and layering issues on Caverns map</p>
+                            <p>* Fixed artillery smoke not showing in low quality</p>
+                            <p>* Fixed CY-122 not being able to get point blank hits</p>
+                            <p>* Fixed music sometimes double playing</p>
+                            <hr>
+                            <b>7/27/2022</b>
+                            <p>+ New lighting and color correction (High Quality only)</p>
+                            <p>+ New Vehicle: VK-1</p>
+                            <p>+ New Vehicle: VK-2</p>
+                            <p>+ New Vehicle: SI-2</p>
+                            <p>+ New Vehicle: ANT-57</p>
+                            <p>+ New Vehicle: ZAG-MM</p>
+                            <p>+ New Vehicle: ZAG-HG</p>
+                            <p>+ New Vehicle: M61B Butcher</p>
+                            <p>+ Added more bots to Conquest</p>
+                            <p>+ New garage</p>
+                            <p>+ Added tips to death screen</p>
+                            <p>* M88 Greyman: Armament 30mm -> 35mm</p>
+                            <p>* M88 Greyman: Reload 2.0s -> 2.3s</p>
+                            <p>* M88 Greyman: Front 2 sides now count as front armor instead of side armor</p>
+                            <p>* Updated Map: Caverns (Battle)</p>
+                            <p>* Updated Map: Battlements (Battle)</p>
+                            <p>* Updated low quality to improve performance</p>
+                            <p>* Light vehicles capture points slower</p>
+                            <p>* Heavy vehicles capture points faster</p>
+                            <p>* Improved Tank Game spawning</p>
+                            <p>* Increased Tank Game time limit to 15 minutes</p>
+                            <p>* Vehicle details now show more info</p>
+                            <p>* Test drive now includes vehicle abilities</p>
+                            <p>* Updated tutorial</p>
+                            <p>* Conquest scores now show on HUD</p>
+                            <p>* Team joining is now disabled for public Battle games</p>
+                            <p>* Shell size is now based on gun caliber</p>
+                            <p>* Shell sound is now based on gun caliber</p>
+                            <p>* Fixed game still disconnecting even after asking</p>
+                            <p>* Fixed XP messages sometimes not displaying after death</p>
+                            <p>* Fixed scoreboard not showing during replays</p>
+                            <hr>
+                            <b>6/30/2022</b>
+                            <p>+ New Map: Artillery (Battle)</p>
+                            <p>+ New Map: Strangefields (Battle)</p>
+                            <p>+ New menu buttons</p>
+                            <p>+ New menu cursor</p>
+                            <p>+ New killstreak HUD</p>
+                            <p>+ Added experimental gamepad/controller support (Enable in settings)</p>
+                            <p>+ Added damage indicators to show the direction of an attacking enemy</p>
+                            <p>+ Added new sounds when taking damage</p>
+                            <p>+ Added settings to disable HUD</p>
+                            <p>* M108 Wolfcat: Armament 99mm -> 108mm, Reload 5.5s -> 5.75s</p>
+                            <p>* M4 Jumbo: Turret Speed 43°/s -> 37°/s, Reload 5.6s -> 6.0s, Turn Force 0.11 -> 0.1</p>
+                            <p>* Chuffy: Weight 21t -> 20t</p>
+                            <p>* M61 Half-Track: Armament 30mm -> 32mm, Reload 2s -> 1.8s</p>
+                            <p>* Enabled join team button in private games</p>
+                            <p>* Rank is now weighted in to team balancing (K/D is still the base value)</p>
+                            <p>* Bot skill now adjusts to average player rank in a game</p>
+                            <p>* Improved matchmaking</p>
+                            <p>* Optimized Snowfall map</p>
+                            <p>* Improved server performance for replays</p>
+                            <p>* Research on trees other than the starter is now locked below rank 12</p>
+                            <p>* Improved in-game chat</p>
+                            <p>* Improved killfeed</p>
+                            <p>* Tank Game now requires sign in to play</p>
+                            <p>* Hitting a player with spawn protection no longer gives XP</p>
+                            <p>* Added delay to death cam</p>
+                            <p>* Enabled XP boosts for Tank Game</p>
+                            <p>* Fixed pointblank hit displaying as a rear hit</p>
+                            <hr>
+                            <b>5/2/2022</b>
+                            <p>+ New Map: Artillery (FFA Only)</p>
+                            <p>+ Added Tank Game to private game gamemode list</p>
+                            <p>* Fixed Jungle map collisions</p>
+                            <p>* Fixed Tank Game late round join spawn issue</p>
+                            <p>* Fixed some disconnect/crash issues</p>
+                            <hr>
+                            <b>4/26/2022</b>
+                            <p>+ New Map: Jungle</p>
+                            <p>+ New Gamemode: Tank Game</p>
+                            <p>+ New Map: Strangefields (FFA Only)</p>
+                            <p>+ Added login rewards for each consecutive day you login</p>
+                            <p>+ Added decal system and purchasable decals</p>
+                            <p>+ Added post death modal showing who killed you</p>
+                            <p>* Improved team balancing</p>
+                            <hr>
+                            <b>3/3/2022</b>
+                            <p>+ New WIP Map: Canal</p>
+                            <p>* Updated Map: Cargo</p>
+                            <p>* Fixed team balance issue when a player joining presses ready button</p>
+                            <p>* Fixed invisible wall on Wadi map</p>
+                            <p>* Updated scorch and impact effects</p>
+                            <hr>
+                            <b>2/22/2022</b>
+                            <p>+ New WIP Map: Battlements</p>
+                            <p>+ New WIP Map: Caverns</p>
+                            <p>+ Updated Map: Wadi</p>
+                            <p>* Join button is now removed for team with 2 more players than the other team</p>
+                            <p>* Purchased premium camos now apply for all vehicles</p>
+                            <p>* Increased some camo requirements slightly</p>
+                            <hr>
+                            <b>2/13/2022</b>
+                            <p>+ Added 80 new unlockable camos</p>
+                            <p>+ New Vehicle: Weevil</p>
+                            <p>* Changed starter heavy vehicle to Weevil</p>
+                            <p>* Changed autobalancing to use K/D instead of total XP</p>
+                            <p>* Increased Hefty Mk. I reload from 6 seconds to 6.8</p>
+                            <p>* Decreased light tank boost recharge from 12 seconds to 10</p>
+                            <p>* Increased heavy tank boost recharge from 12 seconds to 15</p>
+                            <hr>
+                            <b>2/10/2022</b>
+                            <p>+ Added setting to disable bots in private games</p>
+                            <p>* Reduced conquest max players from 20 to 16</p>
+                            <p>* Disabled team selection on round start</p>
+                            <p>* Reduced saved replays from 15 to 10</p>
+                            <hr>
+                            <b>2/8/2022</b>
+                            <p>+ New premium camos</p>
+                            <p>* Player rank now shows on lobby screen</p>
+                            <p>* More autobalance improvements</p>
+                            <hr>
+                            <b>2/4/2022</b>
+                            <p>+ New Map: Snowfall</p>
+                            <p>* Improved autobalancing</p>
+                            <p>* Fixed round end kill/assist badges not showing</p>
+                            <p>* Reduced AI turret ranges</p>
+                            <hr>
+                            <b>2/2/2022</b>
+                            <p>+ Added autobalancing based on player skill</p>
+                            <p>+ Added AI turrets at spawn to prevent spawn camping</p>
+                            <p>+ Added sound volume slider in settings</p>
+                            <p>+ Added chat filter</p>
+                            <p>* Bots will now destroy deployed walls</p>
+                            <p>* Guests now have a number</p>
+                            <p>* Fixed some gold claim issues for new users</p>
+                            <hr>
+                            <b>1/30/2022</b>
+                            <p>* Fixed cosmetics sometimes not loading in garage</p>
+                            <p>* Changed amount of recordings stored from 20 to 15</p>
+                            <p>* Fixed game server crash</p>
+                            <p>* Fixed round start loading issue</p>
+                            <p>* Fixed round end screen issue when joining a game</p>
+                            <hr>
+                            <b>1/25/2022</b>
+                            <p>+ Enabled buying gold</p>
+                            <p>* Fixed HUD not scaling with screen size</p>
+                            <p>* Fixed players sometimes getting stuck spectating</p>
+                            <hr>
+                            <b>1/21/2022</b>
+                            <p>+ New landmine sprite</p>
+                            <p>* Improved in game UI responsiveness</p>
+                            <p>* Improved respawn timing</p>
+                            <p>* Fixed players sometimes spawning in the same place</p>
+                            <hr>
+                            <b>1/19/2022</b>
+                            <p>+ Added image previews to replays</p>
+                            <p>* Increase camo offset limits</p>
+                            <hr>
+                            <b>1/18/2022</b>
+                            <p>+ Added Battle gamemode</p>
+                            <p>+ New debris when a wreck is destroyed</p>
+                            <p>+ Added premium camos</p>
+                            <p>+ Added new premium vehicles</p>
+                            <p>+ Added key hints for killstreaks</p>
+                            <hr>
+                            <b>1/11/2022</b>
+                            <p>+ Added XP boosts</p>
+                            <p>* Increased research XP requirements</p>
+                            <p>* Fixed camera sometimes not locking to player in replays</p>
+                            <p>* Fixed long replay issues</p>
+                            <p>* Fixed dead vehicles not showing in the correct place in replays</p>
+                            <hr>
+                            <b>1/8/2022</b>
+                            <p>+ New Vehicle: P-70</p>
+                            <p>+ New Vehicle: PT-5</p>
+                            <p>+ New Vehicle: P-34/85</p>
+                            <p>+ New Vehicle: CY-76</p>
+                            <p>+ New Vehicle: CY-122</p>
+                            <p>* Added progress bar to current research</p>
+                            <p>* Research progress now shows at round end</p>
+                            <hr>
+                            <b>1/6/2022</b>
+                            <p>* Improved research tree</p>
+                            <p>* Fixed friendly ricochets giving XP</p>
+                            <p>* Fixed cosmetics being reset on page change</p>
+                            <hr>
+                            <b>1/3/2022</b>
+                            <p>+ New Vehicle: M42 Chuffy</p>
+                            <p>+ New Vehicle: M88 Greyman</p>
+                            <p>+ New Vehicle: M61 Half-Track</p>
+                            <p>+ New Vehicle: M4 Sherwin</p>
+                            <p>+ New Vehicle: M4 Jumbo</p>
+                            <p>+ New Vehicle: M108 Wolfcat</p>
+                            <p>+ New Vehicle: M70 Beast</p>
+                            <p>+ New Vehicle: Jagdsherwin</p>
+                            <p>* Updated boost sound effects</p>
+                            <p>* Improved repair effects</p>
+                            <p>* Fixed wheeled vehicles moving while repairing</p>
+                            <hr>
+                            <b>12/30/2021</b>
+                            <p>+ Added video downloading for replays</p>
+                            <p>+ Added claiming free gold</p>
+                            <p>+ Added shop</p>
+                            <p>* Improved shadow performance</p>
+                            <p>* Improved visibility on smaller screens</p>
+                            <p>* Improved low quality performance</p>
+                            <hr>
+                            <b>12/16/2021</b>
+                            <p>+ New UI</p>
+                            <p>* Cosmetics are now saved even when vehicles are switched</p>
+                            <p>* Fixed game invite issues</p>
+                            <hr>
+                            <b>11/30/2021</b>
+                            <p>+ Added slomo sound effect</p>
+                            <p>* Fixed keys being stuck when window loses focus</p>
+                            <p>* Fixed round end screen disappearing when a player leaves</p>
+                            <p>* Optimized websocket connections</p>
+                            <hr>
+                            <b>11/5/2021</b>
+                            <p>* Fixed bot balance issue</p>
+                            <p>* Updated logo and styling</p>
+                            <hr>
+                            <b>11/4/2021</b>
+                            <p>+ Added win/loss and playtime stats</p>
+                            <p>* Increased starting bot count</p>
+                            <p>* Improved loading</p>
+                            <hr>
+                            <b>11/3/2021</b>
+                            <p>+ Added stats on profile page</p>
+                            <p>+ Added stats for each vehicle</p>
+                            <p>* Improved damage feedback</p>
+                            <p>* Decreased debris and scorch mark lifetime</p>
+                            <p>* Improved Wadi map readability</p>
+                            <p>* Improved timer UI</p>
+                            <p>* Improved damage feedback</p>
+                            <hr>
+                            <b>10/30/2021</b>
+                            <p>+ New research tree</p>
+                            <hr>
+                            <b>10/25/2021</b>
+                            <p>+ New Vehicle: Pike SPG</p>
+                            <hr>
+                            <b>10/23/2021</b>
+                            <p>+ Added killstreaks</p>
+                            <hr>
+                            <b>10/21/2021</b>
+                            <p>+ New Vehicle: Hefty Mk. I</p>
+                            <hr>
+                            <b>10/20/2021</b>
+                            <p>+ New Vehicle: P-34/76</p>
+                            <hr>
+                            <b>10/19/2021</b>
+                            <p>+ Added ramming damage when boosting</p>
+                            <p>+ Destroyed vehicles can now be opened to get repair kits</p>
+                            <hr>
+                            <b>10/15/2021</b>
+                            <p>+ New garage</p>
+                            <p>+ Added vehicle track trails</p>
+                            <p>+ New menu backgrounds</p>
+                            <p>+ New Map: Wadi</p>
+                            <p>+ New Vehicle: M5 Stout</p>
+                            <p>+ New HUD</p>
+                            <p>+ Added kill and assist medals</p>
+                            <p>* Shell caliber and armor thickness now affects shell penetration</p>
+                            <p>* Map Updated: The Pit</p>
+                            <p>* Changed damage font</p>
+                            <p>* Vehicles now have different reverse stats</p>
+                            <p>* Improved kill animations</p>
+                            <p>* Improved focus issues</p>
+                            <p>* Fixed round end not showing winners</p>
+                            <p>* Fixed ricochet killing players that are repairing</p>
+                            <hr>
+                            <b>9/17/2021</b>
+                            <p>+ Added replays on profile</p>
+                            <p>* Bouncing shots off your tank now gives XP</p>
+                            <p>* Barricades and dead tanks can now be destroyed</p>
+                            <p>* Fixed chat sometimes losing focus</p>
+                            <hr>
+                            <b>9/15/2021</b>
+                            <p>+ Added sound effects when a shot misses your tank</p>
+                            <p>* Improved engine sound effects</p>
+                            <p>* Decreased bot difficulty</p>
+                            <hr>
+                            <b>9/14/2021</b>
+                            <p>+ Added settings</p>
+                            <p>* Fixed killfeed display issues</p>
+                            <p>* Improved networking</p>
+                            <p>* Fixed replay movement issues</p>
+                            <hr>
+                            <b>6/21/2021</b>
+                            <p>+ Added a killfeed</p>
+                            <p>* Special abilities now reload after 3 kills</p>
+                            <p>* Increased visibility of vehicle outlines</p>
+                            <p>* Fixed issue with lobby ready button sometimes disappearing</p>
+                            <p>* Can now press enter to open chat</p>
+                            <p>* Fixed some other chat issues</p>
+                            <hr>
+                            <b>6/19/2021</b>
+                            <p>+ New Map: Tank Park</p>
+                            <p>+ New Gamemode: Conquest</p>
+                            <hr>
+                            <b>5/20/2021</b>
+                            <p>+ Added 4 second respawn invincibility</p>
+                            <p>* Set capture the flag to the default gamemode for now</p>
+                            <p>* Removed The Pit from map rotation until matchmaking is implemented</p>
+                            <hr>
+                            <b>5/16/2021</b>
+                            <p>+ New Vehicle: Light Scout</p>
+                            <p>+ New Vehicle: Medium Halftrack</p>
+                            <p>+ Light Scout Ability: Artillery</p>
+                            <p>+ Medium Halftrack Ability: Airstrike</p>
+                            <hr>
+                            <b>5/9/2021</b>
+                            <p>+ Implemented new hitboxes for vehicles</p>
+                            <hr>
+                            <b>5/4/2021</b>
+                            <p>* Updated tutorial</p>
+                            <hr>
+                            <b>3/5/2021</b>
+                            <p>+ Added new tutorial</p>
+                            <p>+ Added arrow under player tank to show direction</p>
+                            <hr>
+                            <b>3/2/2021</b>
+                            <p>+ Assault Gun now has Colossus ability</p>
+                            <p>* Fixed team auto balance issue with bots</p>
+                            <hr>
+                            <b>3/1/2021</b>
+                            <p>+ New explosion effects</p>
+                            <p>+ New tank impact effects</p>
+                            <p>+ Added damage effects where shots hit vehicles</p>
+                            <hr>
+                            <b>2/27/2021</b>
+                            <p>* Fixed replays sometimes not starting properly</p>
+                            <hr>
+                            <b>2/26/2021</b>
+                            <p>+ New kill effects</p>
+                            <p>+ New boost effect, again</p>
+                            <p>+ New shot hit effects</p>
+                            <p>* Improved shot/ricochet latency compensation</p>
+                            <hr>
+                            <b>2/25/2021</b>
+                            <p>+ New boost sound effects</p>
+                            <p>+ New smoke and scorch effects</p>
+                            <p>+ Added wind system for smoke</p>
+                            <p>* Grenades and landmines now do a max of 85 damage</p>
+                            <hr>
+                            <b>2/23/2021</b>
+                            <p>+ New grenade</p>
+                            <p>+ New explosion sound effects</p>
+                            <p>+ New boost effects</p>
+                            <p>* Chat is now blue for friendlies and red for enemies</p>
+                            <p>* Grenades can now be launched over walls</p>
+                            <hr>
+                            <b>2/22/2021</b>
+                            <p>+ Added standalone registration/login</p>
+                            <p>* Assault Gun and Light Tank are now locked behind ranks</p>
+                            <hr>
+                            <b>2/21/2021</b>
+                            <p>+ New HUD</p>
+                            <p>+ Added menu sounds</p>
+                            <p>* Battle gamemode now has a max of 7 rounds</p>
+                            <hr>
+                            <b>2/20/2021</b>
+                            <p>+ New sounds for ricochets, wall and tank impacts, reloads, and others</p>
+                            <p>* Damage is now shown when hitting an enemy</p>
+                            <p>* Total XP now shows for a shot</p>
+                            <hr>
+                            <b>2/19/2021</b>
+                            <p>+ Implemented tutorial</p>
+                            <p>+ Added new sounds for shots, hits, and kills</p>
+                            <p>* Firing now adds a bit of force to vehicles</p>
+                            <p>* Fixed sound issues in replays</p>
+                            <p>* Made bots less accurate</p>
+                            <hr>
+                            <b>2/16/2021</b>
+                            <p>+ Implemented abilities for tanks, activated with 'Q'.</p>
+                            <p>+ Medium Tank Ability: Grenade</p>
+                            <p>+ Assault Gun Ability: Landmine</p>
+                            <p>+ Light Tank Ability: Deployable Wall</p>
+                            <p>* Implemented new crosshair</p>
+                            <hr>
+                            <b>2/15/2021</b>
+                            <p>* You can now shoot while repairing</p>
+                            <p>* Improved bot AI</p>
+                            <p>* Made bots a bit easier</p>
+                            <p>* Small bug fixes</p>
+                            <hr>
+                            <b>2/14/2021</b>
+                            <p>+ New Map: Cargo</p>
+                            <hr>
+                            <b>2/11/2021</b>
+                            <p>+ Implemented sign in</p>
+                            <p>+ Implemented basic garage</p>
+                            <p>+ Implemented new effects</p>
+                            <hr>
+                            <b>2/9/2021</b>
+                            <p>+ Implemented tank camo system</p>
+                            <p>+ Added outlines for enemy and friendly tanks</p>
+                            <p>* Updated Pixi.js version, should be more performant</p>
+                            <hr>
+                            <b>2/8/2021</b>
+                            <p>+ New Map: Trainyard</p>
+                            <p>+ New Map: The Pit</p>
+                            <p>+ Added map rotation</p>
+                            <hr>
+                            <b>2/5/2021</b>
+                            <p>+ Shot XP for long shots</p>
+                            <p>* Destroyed tanks now keep their turrets</p>
+                            <p>* Improved replays</p>
+                            <p>* Improved bots</p>
+                            <hr>
+                            <b>2/2/2021</b>
+                            <p>+ Implemented simple bots to balance teams</p>
+                            <hr>
+                            <b>1/15/2021</b>
+                            <p>* Rear tank hits are now always an instant kill</p>
+                            <p>* Fixed game chat not resetting to game controls after hitting enter</p>
+                            <hr>
+                            <b>1/13/2021</b>
+                            <p>+ New gamemode: Tag</p>
+                            <p>+ New test map: Square</p>
+                            <p>+ Added ability to ping allies with middle mouse button</p>
+                            <p>+ Names in chat are now the color of their team</p>
+                            <p>+ Game end now shows XP earned and kills for each player</p>
+                            <p>+ Global chat can now be opened/closed with "t"</p>
+                            <p>* Decreased max player count to 8</p>
+                            <p>* Increased battle round time to 2 minutes and 30 seconds</p>
+                            <p>* Dead tanks now despawn after 1 minute in gamemodes that allow respawns</p>
+                            <p>* Decreased max shell bounces from 12 to 4</p>
+                            <p>* Battle gamemode round winner is now determined by amount of players left alive</p>
+                            <p>* Improved replay reliability(hopefully)</p>
+                            <p>* Fixed chat during replays</p>
+                            <hr>
+                            <b>1/5/2021</b>
+                            <p>+ Replay system</p>
+                            <p>* Shots ricochet more on walls</p>
+                            <hr>
+                            <b>10/30/2020</b>
+                            <p>+ New test map: Long Map</p>
+                            <p>+ New test map: Tractor Factory 2</p>
+                            <p>+ New UI</p>
+                            <p>+ New tank types</p>
+                            <hr>
+                            <b>8/14/2020</b>
+                            <p>+ New ricochet effect</p>
+                            <p>+ New aiming reticle</p>
+                            <p>* Fixed shells not hitting if your barrel is in the entity</p>
+                            <p>* Changed Battle mode to be 5 rounds</p>
+                            <p>* Battle mode now switches spawns each round</p>
+                            <hr>
+                            <b>8/12/2020</b>
+                            <p>+ New gamemode: Battle</p>
+                            <p>* Fixed turret offset</p>
+                            <hr>
+                            <b>8/11/2020</b>
+                            <p>+ New map: Tractor Factory</p>
+                            <p>+ New tank textures</p>
+                            <hr>
+                            <b>6/14/2020</b>
+                            <p>+ Added repair button</p>
+                            <p>* Improved capture the flag gamemode</p>
+                            <hr>
+                            <b>6/12/2020</b>
+                            <p>+ Added capture the flag gamemode</p>
+                            <hr>
+                            <b>1/29/2020</b>
+                            <p>+ Initial alpha release</p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="moon-get-preload" style="opacity:0; position:absolute; top:0; left:0;">preload</div>
+        <!-- inject:js -->
+        <script src="js/vendor.min.js?v=1684033151637"></script>
+        <script src="js/app.min.js?v=1684033151637"></script>
+        <!-- endinject -->
+    </body>
+</html>

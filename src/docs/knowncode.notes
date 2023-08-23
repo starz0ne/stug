@@ -1,0 +1,45 @@
+!//// misc
+===> #game.getPlayer()
+this function returns the player object from
+an anonymous function in game.js.
+
+===> #socket.emit()
+sends a message to the server.
+
+===> #socket.on()
+recieves a message to the server and acts on it.
+
+!//// ad.js
+===> #game.services.ad
+contains most functions for showing ads,
+alongside promotions, etc.
+
+!//// playerMenu.js
+===> #game.playerMenuComponent
+exposes functions in playerMenu.js.
+using $data while the player menu is open
+allows you to see data about the player.
+
+===> #???.sendReport()
+part of a player modal/menu.
+sends a socket message called `reportPlayer` to the server with
+the player (the one the modal is open on)'s `clientId`, alongside
+`reportReason`, and `reportDetails`.
+
+===> #???.kick()
+part of a player modal/menu.
+sends a socket message to the server called `lobbyKickPlayer`
+with the selected player's `clientId`.
+
+!//// lobby.js
+===> #game.lobbyComponent
+allows you to access functions in lobby.js,
+namely the player id setter, and the data function.
+
+!//// game.js
+===> #game.mainSocket
+the socket reports get sent from, as the name specifies,
+this socket is used for a lot of things.
+
+TODO:
+- document all sendable and recievable server/client messages for sockets

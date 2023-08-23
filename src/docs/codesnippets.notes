@@ -1,0 +1,72 @@
+if (game.lobbyComponent) {
+    let playerData = game.lobbyComponent.getCurrentPlayerData();
+    if (playerData) {
+        currentPlayerId = playerData.clientId;
+    }
+}
+
+socket.on('reportPlayer', (data) => {
+    if (!socket.reportedPlayers[data.clientId]) {
+        socket.reportedPlayers[data.clientId] = true;
+
+        let reportedPlayer = null;
+        for (let i=0; i<server.clients.length; i++) {
+            let client = server.clients[i];
+            if (client.clientId === data.clientId) {
+                reportedPlayer = client;
+                break;
+            }
+        }
+
+        if (reportedPlayer === socket) {
+            socket.emit('growl', 'You can not report yourself!');
+            return;
+        }
+
+        if (reportedPlayer) {
+            let recentMessages = socket.recentMessages.concat(reportedPlayer.recentMessages);
+            recentMessages.sort((a, b) => a.date - b.date);
+
+            let reportData = {
+                reporter: {
+                    name: socket.name,
+                    address: socket.realAddress,
+                    user: socket.user
+                },
+                reported: {
+                    name: reportedPlayer.name,
+                    address: reportedPlayer.realAddress,
+                    user: reportedPlayer.user
+                },
+                server: {
+                    serverId: serverId,
+                    gamemode: server.gamemode ? server.gamemode.type : 'unknown',
+                    fullInviteToken: server.getFullInviteToken(),
+                    address: gameData.address,
+                    region: gameData.region
+                },
+                recentMessages: recentMessages,
+                reason: data.reason
+            };
+
+            sendMasterMessage('reportPlayer', reportData);
+            socket.emit('growl', 'Player report sent.');
+        } else {
+            socket.emit('growl', 'Player not found.');
+        }
+    } else {
+        socket.emit('growl', 'You have already reported this player.');
+    }
+});
+
+   Cookies = {
+       get: (key) => {
+           return window.localStorage.getItem(key);
+       },
+       set: (key, value) => {
+           window.localStorage.setItem(key, value);
+       },
+       remove: (key) => {
+           window.localStorage.removeItem(key);
+       }
+   };
