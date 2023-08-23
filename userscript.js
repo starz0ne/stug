@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-(async function() { 'use strict';
+(async function() {'use strict';
 
 // +++++++++++++++++++ MODMENU INJECTION
 // prepare elements
