@@ -5,7 +5,7 @@ A **JS tampermonkey script** for modifying and injecting hacks into the game htt
 To load the userscript, you first need to get the tampermonkey extension.
 
 You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
-Then, download `userscript.js` - open the tampermonkey dashboard, 
+Then, download `userscript.js` - open the tampermonkey dashboard,
 and upload it.
 
 It should load upon visiting the [game's website](https://stug.io).
