@@ -1,6 +1,6 @@
 # Stug.io Hack Injector Menu (SHIM)
 
-A **JS tampermonkey script** for modifying and injecting hacks into the game https://stug.io.
+A **JS tampermonkey script** for modifying and injecting hacks into the game [stug.io](https://stug.io).
 
 ## Installation
 
