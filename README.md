@@ -2,13 +2,13 @@
 
 A **JS tampermonkey script** for injecting hacks into the game [stug.io](https://stug.io).
 
-Automatically updates UI.
+Automatically updates UI (80% Polymorphic)
 
 ## Installation
 
-To load the userscript, you first need to get the tampermonkey extension.
+To load the userscript, you first need to get the tampermonkey ***BETA*** extension.
 
-You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
+You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf).
 Then, download `userscript.js` - open the tampermonkey dashboard,
 and upload it.
 
@@ -27,6 +27,7 @@ None > There are no stable features currently.
 ```rust
 Shotgun > You shoot in 3 directions now. | Slider
 Prediction Lines > Shows the path shots will take from you & your enemies, and the path a grenade will take. | Toggle
+View Hack > Just increases your view of the map | Slider
 ```
 
 ### Possibly Impossible/Todo
