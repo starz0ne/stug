@@ -8,7 +8,7 @@ Automatically updates UI (80% Polymorphic)
 
 To load the userscript, you first need to get the tampermonkey ***BETA*** extension.
 
-You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
+You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf).
 Then, download `userscript.js` - open the tampermonkey dashboard,
 and upload it.
 
