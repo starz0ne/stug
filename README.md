@@ -27,6 +27,7 @@ None > There are no stable features currently.
 ```rust
 Shotgun > You shoot in 3 directions now. | Slider
 Prediction Lines > Shows the path shots will take from you & your enemies, and the path a grenade will take. | Toggle
+View Hack > Just increases your view of the map | Slider
 ```
 
 ### Possibly Impossible/Todo
