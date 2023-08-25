@@ -2,7 +2,7 @@
 
 A **JS tampermonkey script** for injecting hacks into the game [stug.io](https://stug.io).
 
-Automatically updates UI.
+Automatically updates UI (80% Polymorphic)
 
 ## Installation
 
