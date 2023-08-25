@@ -128,7 +128,6 @@ const maximizeModMenu = () => {
 // exploit functions
 const shotgunMode = () => { // type: patch_hack
    console.log('[dusty] shotgun mode enabled! (*DOOM MUSIC*)');
-   game.lobbyComponent.setCurrentPlayerId(undefined);
 };
 // ++++++++++++++++++++++++++++++++
 
