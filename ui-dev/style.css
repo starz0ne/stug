@@ -187,9 +187,10 @@
 }
 .maximize {
    /* positioning */
+   position: relative;
    margin: auto;
    text-align: left;
-	margin-right: 20px;
+   margin-right: 0px;
 	margin-left: var(--maximize-button-left);
 
    /* colors */
