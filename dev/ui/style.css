@@ -3,7 +3,8 @@
 :root {
 	/* menu properties */
 	--menu-body-height: 300px;
-	--menu-body-width: 300px;
+	--menu-body-width: 400px;
+   --menu-header-height: 20px;
 
 	/* menu z-index */
 	--global-importance: 200;
@@ -11,12 +12,20 @@
 	/* theme */
    --font: Orbitron;
 
-	--menu-body-color: #201f1e;
-	--menu-body-border-color: #cfcfcf;
-	--menu-body-border-style: solid;
+	--menu-body-color: #222121;
 	--menu-body-text-color: #535353;
+	--menu-body-border-color: #919191;
+   --menu-body-border-roundness: 10px;
+   --menu-body-border-thickness: 5px;
+   --menu-body-border-style: outset;
 
 	--menu-header-color: #131313;
+   --menu-header-text-color: #000000;
+   --menu-header-stage-color: #323038;
+   --menu-header-border-color: #131313;
+   --menu-header-border-roundness: 4px;
+   --menu-header-border-thickness: 5px;
+   --menu-header-border-style: solid;
 }
 
 .menu-body {
@@ -24,11 +33,40 @@
    height: var(--menu-body-height);
    width: var(--menu-body-width);
    position: absolute !important;
-   bottom: 0px;
-   right: 0px;
+   flex-direction: column;
+   display: flex;
+   bottom: 10px;
+   right: 10px;
 
    /* theme */
-   font-family: var(--font);
    background-color: var(--menu-body-color);
    color: var(--menu-body-text-color);
+   font-family: var(--font);
+
+   border: var(--menu-body-border-thickness);
+   border-color: var(--menu-body-border-color);
+   border-style: var(--menu-body-border-style);
+   border-radius: var(--menu-body-border-roundness);
+}
+
+.menu-header {
+   height: var(--menu-header-height);
+   text-align: center;
+
+   /* theme */
+   background-color: var(--menu-header-color);
+   color: var(--menu-header-text-color);
+
+   border: var(--menu-header-border-thickness);
+   border-color: var(--menu-header-border-color);
+   border-style: var(--menu-header-border-style);
+   border-top-left-radius: var(--menu-header-border-roundness);
+   border-top-right-radius: var(--menu-header-border-roundness);
+} .menu-header-title {
+   display: inline;
+   margin: 0;
+} .menu-header-stage {
+   display: inline;
+   margin: 0;
+   color: var(--menu-header-stage-color);
 }
