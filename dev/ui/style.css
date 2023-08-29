@@ -51,6 +51,7 @@
 }
 
 .menu-header {
+   box-sizing: content-box !important;
    height: var(--menu-header-height);
    text-align: center;
 
