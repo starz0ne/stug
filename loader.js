@@ -9,7 +9,7 @@
 // @grant        none
 // ==/UserScript==
 
-(function() {
+(async function() {
    'use strict';
    async function fetchfile(link) {
       let request = await fetch(link);
@@ -27,18 +27,18 @@
    const folder = '/dev'
 
    // Inject HTML
-   var html = fetchfile(repository+folder+'/ui/container.html');
+   var html = await fetchfile(repository+folder+'/ui/container.html');
    document.body.appendChild(container('div', html));
    console.log('[loader.js:shim] injected container.html (1/4)');
 
    // Inject CSS
-   var css = fetchfile(repository+folder+'/ui/style.css');
+   var css = await fetchfile(repository+folder+'/ui/style.css');
    document.head.appendChild(container('style', css));
    console.log('[loader.js:shim] injected style.css (2/4)');
 
    // Inject JS
-   var render = fetchfile(repository+folder+'/ui/render.js');
-   var exploit = fetchfile(repository+folder+'/exploit.js');
+   var render = await fetchfile(repository+folder+'/ui/render.js');
+   var exploit = await fetchfile(repository+folder+'/exploit.js');
    document.head.appendChild(container('script', render));
    console.log('[loader.js:shim] injected render.js (3/4)');
    document.head.appendChild(container('script', exploit));
