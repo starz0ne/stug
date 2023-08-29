@@ -1,18 +1,16 @@
-# Stug.io Hack Injection Menu (SHIM)
+# Stug.io Hack Injection Menu
 
-A **JS tampermonkey script** for injecting hacks into the game [stug.io](https://stug.io).
-
-Automatically updates UI (80% Polymorphic)
+A **self-updating menu** for injecting hacks into the game [stug.io](https://stug.io).
 
 ## Installation
 
-To load the userscript, you first need to get the tampermonkey ***BETA*** extension.
+To install SHIM, you first need to get the tampermonkey extension.
 
-You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey-beta/gcalenpjmijncebpfijmoaglllgpjagf).
-Then, download `userscript.js` - open the tampermonkey dashboard,
-and upload it.
+You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
+Then, download `loader.js` - open the tampermonkey dashboard,
+and drag 'n drop the file onto the dashboard to upload it.
 
-It should load upon visiting the [game's website](https://stug.io).
+It should automatically load when visiting the [game's website](https://stug.io).
 
 ## Feature List
 
