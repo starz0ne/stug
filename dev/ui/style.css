@@ -29,6 +29,7 @@
 }
 
 .menu-body {
+   box-sizing: content-box !important;
    z-index: var(--global-importance);
    height: var(--menu-body-height);
    width: var(--menu-body-width);
