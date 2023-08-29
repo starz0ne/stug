@@ -4,11 +4,11 @@ A **self-updating menu** for injecting hacks into the game [stug.io](https://stu
 
 ## Installation
 
-To install SHIM, you first need to get the tampermonkey extension.
+To install SHIM, you need to have the tampermonkey extension.
 
 You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey/dhdgffkkebhmkfjojejmpbldmpobfkfo).
-Then, download `loader.js` - open the tampermonkey dashboard,
-and drag 'n drop the file onto the dashboard to upload it.
+Download `loader.js` - open the tampermonkey dashboard,
+then drag and drop the file onto the dashboard to upload it.
 
 It should automatically load when visiting the [game's website](https://stug.io).
 
@@ -24,8 +24,8 @@ None > There are no stable features currently.
 
 ```rust
 Shotgun > You shoot in 3 directions now. | Slider
-Prediction Lines > Shows the path shots will take from you & your enemies, and the path a grenade will take. | Toggle
-View Hack > Just increases your view of the map | Slider
+Prediction Lines > Shows the path shots will take from you & your enemies and the path a grenade will take. | Toggle
+View Hack > Increases your view of the map | Slider
 Sniper > Bullets do not disintegrate anymore | Toggle
 ```
 
