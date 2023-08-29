@@ -11,15 +11,12 @@
 	/* theme */
    --font: Orbitron;
 
-	--menu-body-color: #ff8800;
-	--menu-body-border-color: #ff8800;
+	--menu-body-color: #201f1e;
+	--menu-body-border-color: #cfcfcf;
 	--menu-body-border-style: solid;
-	--menu-body-text-color: #ff5e00;
+	--menu-body-text-color: #535353;
 
-	--menu-header-color: #ff7300;
-	--menu-header-border-color: #ff7300;
-	--menu-header-border-style: solid;
-	--menu-header-text-color: #e02200;
+	--menu-header-color: #131313;
 }
 
 .menu-body {
