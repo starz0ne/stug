@@ -1974,18 +1974,18 @@ const COLOR_ENEMY_BRIGHT = 0xef3f25;
 const snapshotRate = 1000/10;
 
 (function() {
-   let ENABLE_DEBUG = false;
-   let running = false;
-   let WIDTH = window.innerWidth;
-   let HEIGHT = window.innerHeight;
-   let MAP_WIDTH = 4000;
-   let MAP_HEIGHT = 4000;
-   let AFK_TIME_TIL_KICK = 2 * 60 * 1000;
-   let AFK_TIME_TIL_KICK_WARNING = 1 * 60 * 1000;
-   let DISABLE_AFK = false;
+   let ENABLE_DEBUG = false; // debug mode
+   let running = false; // if the game is running
+   let WIDTH = window.innerWidth; // window width
+   let HEIGHT = window.innerHeight; // window height
+   let MAP_WIDTH = 4000; // map max width
+   let MAP_HEIGHT = 4000; // map max height
+   let AFK_TIME_TIL_KICK = 2 * 60 * 1000; // afk time until kicked
+   let AFK_TIME_TIL_KICK_WARNING = 1 * 60 * 1000; // afk time until kick warning
+   let DISABLE_AFK = false; // whether being afk counts or not
    let idleTime = Date.now();
    let serverTimeDiff = 0;
-   let spectating = false;
+   let spectating = false; // whether you're spectating
    let latency = 0;
    let capturer = null;
    let pauseEffects = false;
@@ -1993,7 +1993,7 @@ const snapshotRate = 1000/10;
    if (isMobile && !isPhoneApp) {
        console.info('Mobile is disabled for now.');
        return;
-   }
+   } // lmao what?
 
    if (!PIXI.utils.isWebGLSupported()) {
        $('body').css({
@@ -2017,39 +2017,50 @@ const snapshotRate = 1000/10;
    PIXI.SCALE_MODES.DEFAULT = PIXI.SCALE_MODES.NEAREST;
    app.view.id = 'gameCanvas';
    document.body.appendChild(app.view);
+   // setting up pixi thingies for use
 
-   let vehicleData = null;
+   let vehicleData = null; // vehicle data???
 
    let isSmallMobile = isMobile && (WIDTH <= 900 || HEIGHT <= 900);
    let isSmallestMobile = isMobile && (WIDTH <= 800 || HEIGHT <= 800);
    game.isMobile = isMobile;
    game.isPhoneApp = isPhoneApp;
+   // mobile detection stuff
+
    let currentMenu = null;
    let beforeRecordingStart = false;
+
+   // positioning? helkpl
    let mx = 0;
    let my = 0;
    let gmx = 0;
    let gmy = 0;
-   let entities = [];
+
+   let entities = []; // important variables for entities
    let entityDictionary = {};
-   let effects = [];
-   let player = null;
+
+   let effects = []; // i wonder what this is
+
+   let player = null; // the player object, can be returned with game.getPlayer()
    let lastControllablePlayer = null;
-   let socket = null;
-   let socket2 = null;
+
+   let socket = null; // websockets~ :D
+   let socket2 = null; 
+
    let lastSpectatedIndex = -1;
    let lastDeathTime = Date.now();
 
-   let windAngle = 0;
+   let windAngle = 0; // wind stuff
    let windStrength = 0.01;
-   let setPlayerData = null;
+
+   let setPlayerData = null; // this looks like a nice variable
+
    let joystickManager;
-
    let timeScale = 1;
-
    let dropShadowFilter = new PIXI.Filter(shadowFilter.vert, shadowFilter.frag);
 
-   const visibilityRange = 1920;
+   // camera stuff
+   const visibilityRange = 1920; // max view range
    let camera = {
        x: MAP_WIDTH/2,
        y: MAP_HEIGHT/2,
@@ -2057,8 +2068,9 @@ const snapshotRate = 1000/10;
        zoom: 1,
        screenShake: 0
    };
-   game.camera = camera;
-   game.resetZoom = function() {
+   game.camera = camera; // just exposing the camera variable we just set
+
+   game.resetZoom = function() { // reset zoom function
        let newZoom = 1;
        if (game.watchingRecording) {
            newZoom = 1.75;
@@ -2097,8 +2109,9 @@ const snapshotRate = 1000/10;
        if (game.isPlayScreen) {
            evt.preventDefault();
        }
-   });
+   }); // ???
 
+   // assets, sounds, etc
    let debugText = null;
    let resources = null;
    let sounds = null;
@@ -2206,7 +2219,7 @@ const snapshotRate = 1000/10;
    };
 
    let soundsLoaded = false;
-   function loadSounds() {
+   function loadSounds() { // sounds!
        if (soundsLoaded) {
            return;
        }
@@ -2657,7 +2670,7 @@ const snapshotRate = 1000/10;
 
        game.sounds = sounds;
    }
-   game.loadSounds = loadSounds;
+   game.loadSounds = loadSounds; // that was quite long
 
    game.updateLightingQuality = function() {
        if (game.settings.quality === 'auto' || game.settings.quality === 'high') {
@@ -2801,7 +2814,7 @@ const snapshotRate = 1000/10;
 
    let joystick1Data;
    let joystick2Data;
-   function loadAssets() {
+   function loadAssets() { // oohoohh
        vehicleData = window.gameServer.vehicleData;
        let vehicleKeys = Object.keys(vehicleData);
        for (let i=0; i<vehicleKeys.length; i++) {
@@ -3991,13 +4004,13 @@ const snapshotRate = 1000/10;
                }
            };
            game.fakeSockets.clientSocket = socket;
-       } else {
+       } else { // if not singleplayer
            if (socket && socket.singleplayerSocket) {
                socket = null;
            }
            game.destroySockets();
 
-           DISABLE_AFK = false;
+           DISABLE_AFK = false; // so if our game is not singleplayer, we get afk warnings and can be kicked
 
            let token = game.queryData.token;
            if (reconnectToken) {
@@ -4007,7 +4020,7 @@ const snapshotRate = 1000/10;
            if (game.queryData.port == 443) {
                protocol = 'https:';
            }
-           socket = io(protocol + '//' + address + ':' + game.queryData.port, {
+           socket = io(protocol + '//' + address + ':' + game.queryData.port, { // now our socket is... thingy!!!
                forceNew: true,
                query: {
                    userToken: token,
@@ -4026,7 +4039,7 @@ const snapshotRate = 1000/10;
            });
        }
 
-       game.mainSocket = socket;
+       game.mainSocket = socket; // so the singleplayer/multiplayer socket goes in here
 
        onSocketConnected();
        running = true;
@@ -4204,7 +4217,7 @@ const snapshotRate = 1000/10;
 
        sendPing();
    }
-   game.init = init;
+   game.init = init; // the init function goes in here
 
    function sendPing() {
        if (socket && socket.connected) {
@@ -4214,7 +4227,7 @@ const snapshotRate = 1000/10;
 
    setInterval(() => {
        sendPing();
-   }, 5000);
+   }, 5000); // we send a ping every 5000ms
 
    game.isRunning = function(){
        return running;
@@ -4288,7 +4301,7 @@ const snapshotRate = 1000/10;
 
        return null;
    }
-   game.onSnapshot = onSnapshot;
+   game.onSnapshot = onSnapshot; // we put the onSnapshot function in here too
 
    function addChatMessage(data) {
        if (data.id) {
@@ -4301,7 +4314,7 @@ const snapshotRate = 1000/10;
                        entity.chat.removeChat = Date.now() + 6000;
                    }
                    if (entity.netData && entity.netData.name) {
-                       chatArray.push(entity.netData.name + ': ' + data.message);
+                       chatArray.push(entity.netData.name + ': ' + data.message); // hookies!!!!
                    }
                    break;
                }
@@ -5107,7 +5120,7 @@ const snapshotRate = 1000/10;
                    type: type
                });
            }
-       };
+       }; // just function to emit 'spawn'
 
        oldRecordingSocket = socket;
        socket.on('chat', function(data) {
@@ -5132,7 +5145,7 @@ const snapshotRate = 1000/10;
                    game.lobbyChat.component.addChatMessage(data);
                }
            }
-       });
+       }); // this is how we see chat
 
        socket.on('killstreaks', (data) => {
            updateKillstreaks(data);
@@ -5533,7 +5546,7 @@ const snapshotRate = 1000/10;
            if (data.sound) {
                sounds[data.sound].play();
            }
-       });
+       }); // just visual
 
        socket.on('scoreboardData', function(data) {
            scoreboardData = data;
@@ -6272,6 +6285,7 @@ const snapshotRate = 1000/10;
    }
 
    let didAction;
+   // important:section1
    function handleInput(event, inputValue, active) {
        if (!inputValue) {
            return;
@@ -6399,6 +6413,7 @@ const snapshotRate = 1000/10;
 
        downPosition = null;
    });
+   // important:section1end
 
    /*
    let touchEvent = null;
