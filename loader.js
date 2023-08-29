@@ -4,7 +4,7 @@
 // @version      1.0
 // @description  A userscript to assemble SHIM by injecting all of it's files
 // @author       starzonenya
-// @match        http://stug.io/*
+// @match        https://stug.io/
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=stug.io
 // @grant        none
 // ==/UserScript==
