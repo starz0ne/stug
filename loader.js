@@ -33,7 +33,7 @@
 
    // Inject CSS
    var css = fetchfile(repository+folder+'/ui/style.css');
-   document.body.appendChild(container('style', css));
+   document.head.appendChild(container('style', css));
    console.log('[loader.js:shim] injected style.css (2/4)');
 
    // Inject JS
