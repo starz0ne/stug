@@ -55,6 +55,7 @@
 .menu-header {
    height: var(--menu-header-height);
    text-align: center;
+   user-select: none;
 
    /* theme */
    background-color: var(--menu-header-color);
