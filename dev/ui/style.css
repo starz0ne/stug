@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@800&display=swap');
+
+:root {
+	/* menu properties */
+	--menu-body-height: 300px;
+	--menu-body-width: 300px;
+
+	/* menu z-index */
+	--global-importance: 200;
+
+	/* theme */
+   --font: Orbitron;
+
+	--menu-body-color: #ff8800;
+	--menu-body-border-color: #ff8800;
+	--menu-body-border-style: solid;
+	--menu-body-text-color: #ff5e00;
+
+	--menu-header-color: #ff7300;
+	--menu-header-border-color: #ff7300;
+	--menu-header-border-style: solid;
+	--menu-header-text-color: #e02200;
+}
+
+.menu-body {
+   z-index: var(--global-importance);
+   height: var(--menu-body-height);
+   width: var(--menu-body-width);
+   position: absolute !important;
+   bottom: 0px;
+   right: 0px;
+
+   /* theme */
+   font-family: var(--font);
+   background-color: var(--menu-body-color);
+   color: var(--menu-body-text-color);
+}
