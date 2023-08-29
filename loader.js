@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SHIM Loader
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @description  A userscript to assemble SHIM by injecting all of it's files
 // @author       starzonenya
 // @match        https://stug.io/
