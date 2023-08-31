@@ -10,7 +10,7 @@ You can find it [here](https://chrome.google.com/webstore/detail/tampermonkey/dh
 Download `loader.js` - open the tampermonkey dashboard,
 then drag and drop the file onto the dashboard to upload it.
 
-It should automatically load when visiting the [game's website](https://stug.io).
+It should automatically inject the menu files when visiting the [game's website](https://stug.io).
 
 ## Feature List
 
