@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         SHIM Loader
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.4
 // @description  A userscript to assemble SHIM by injecting all of it's files
 // @author       starzonenya
 // @match        https://stug.io/
@@ -20,28 +20,57 @@
       let element = document.createElement(type);
       element.innerHTML = content;
       return element;
+   } function message(level, content) {
+      switch (level) {
+         case 'error':
+            console.error('[loader.js] => { '+content+' }')
+            break;
+         case 'warning':
+            console.log('[loader.js] => [ '+content+' ]')
+            break;
+         case 'info':
+            console.log('[loader.js] => ( '+content+' )')
+            break;
+         default:
+            console.log('[loader.js] => > '+content+' <')
+            break;
+      }
    }
 
-   // Define file locations
-   const repository = 'https://raw.githubusercontent.com/starzonenya/stug/master'
-   const folder = '/dev'
+   // Define file repository
+   const repository = 'https://raw.githubusercontent.com/starzonenya/stug/master/dev'
 
    // Inject HTML
-   var html = await fetchfile(repository+folder+'/ui/container.html');
-   document.body.appendChild(container('div', html));
-   console.log('[loader.js:shim] injected container.html (1/4)');
+   try {
+      var html = await fetchfile(repository+'/ui/container.html');
+      document.body.appendChild(container('div', html));
+   } catch(err) { message('error', err);
+      message('warning', 'please report this error so it can be fixed.');
+   }
+   message('info', 'injected container.html');
 
    // Inject CSS
-   var css = await fetchfile(repository+folder+'/ui/style.css');
-   document.head.appendChild(container('style', css));
-   console.log('[loader.js:shim] injected style.css (2/4)');
+   try {
+      var css = await fetchfile(repository+'/ui/style.css');
+      document.head.appendChild(container('style', css));
+   } catch(err) { message('error', err);
+      message('warning', 'please report this error so it can be fixed.');
+   }
+   message('info', 'injected style.css');
 
    // Inject JS
-   var render = await fetchfile(repository+folder+'/ui/render.js');
-   var exploit = await fetchfile(repository+folder+'/exploit.js');
-   document.head.appendChild(container('script', render));
-   console.log('[loader.js:shim] injected render.js (3/4)');
+   try {
+      var render = await fetchfile(repository+'/ui/render.js');
+      document.head.appendChild(container('script', render));
+   } catch(err) { message('error', err);
+      message('warning', 'please report this error so it can be fixed.');
+   }
+   message('info', 'injected render.js');
+   try {
+   var exploit = await fetchfile(repository+'/exploit.js');
    document.head.appendChild(container('script', exploit));
-   console.log('[loader.js:shim] injected exploit.js (4/4)');
-
+   } catch(err) { message('error', err);
+      message('warning', 'please report this error so it can be fixed.');
+   }
+   message('info', 'injected exploit.js');
 })();
