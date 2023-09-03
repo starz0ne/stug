@@ -44,33 +44,25 @@
    try {
       var html = await fetchfile(repository+'/ui/container.html');
       document.body.appendChild(container('div', html));
-   } catch(err) { message('error', err);
-      message('warning', 'please report this error so it can be fixed.');
-   }
+   } catch(err) { message('error', err); }
    message('info', 'injected container.html');
 
    // Inject CSS
    try {
       var css = await fetchfile(repository+'/ui/style.css');
       document.head.appendChild(container('style', css));
-   } catch(err) { message('error', err);
-      message('warning', 'please report this error so it can be fixed.');
-   }
+   } catch(err) { message('error', err); }
    message('info', 'injected style.css');
 
    // Inject JS
    try {
       var render = await fetchfile(repository+'/ui/render.js');
       document.head.appendChild(container('script', render));
-   } catch(err) { message('error', err);
-      message('warning', 'please report this error so it can be fixed.');
-   }
+   } catch(err) { message('error', err); }
    message('info', 'injected render.js');
    try {
    var exploit = await fetchfile(repository+'/exploit.js');
    document.head.appendChild(container('script', exploit));
-   } catch(err) { message('error', err);
-      message('warning', 'please report this error so it can be fixed.');
-   }
+   } catch(err) { message('error', err); }
    message('info', 'injected exploit.js');
 })();
